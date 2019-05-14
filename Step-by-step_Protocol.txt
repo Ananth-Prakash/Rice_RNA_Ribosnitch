@@ -60,11 +60,10 @@ Merged_160721_160918_2_NpNAI_2.fq.gz				(Merged & compressed reverse strand repl
 
 HPC Data Folder: /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Hongjing_Rice/Trimmed_files
 ( /* Adapters are trimmed in sbatch mode.
-Refer script: batch_submit_trim_jobs.sh */)
+Refer script: trim_nipponbare_submit_jobs.sh */)
 
 
-Run scripts 'nohup sbatch batch_submit_NmNAI_trim_jobs.sh &'
-	    'nohup sbatch batch_submit_NpNAI_trim_jobs.sh &'		/* Important to use 'sbatch' instead of 'sh' */
+Run script 'nohup sbatch trim_nipponbare_submit_jobs.sh &'		/* Important to use 'sbatch' instead of 'sh' */
 
 The output files *_out_fw_paired.fq
 	  	 *_out_fw_unpaired.fq
