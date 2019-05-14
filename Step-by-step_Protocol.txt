@@ -1,0 +1,217 @@
+#
+Date: 13/Nov/2017
+HPC Data Folder: /nbi/Research-Groups/JIC/Yiliang-Ding/YD/RAW/OSA/HONG-RICE
+( /* After merging, these RAW data files are now gzipped to save disk space */ )
+ 
+# Step 1.	Merge/Append [cat] technical replictes
+
+160721_I114_FCHC2FYBBXX_L2_CHKPE85216070025_1_NmNAI_1.fq
+160918_I211_FCHCGLCBBXX_L6_CHKPE85216070025_1_NmNAI_1.fq	(Forward strand technical replicates)	-NAI	Bio1
+
+160721_I114_FCHC2FYBBXX_L2_CHKPE85216070025_2_NmNAI_1.fq
+160918_I211_FCHCGLCBBXX_L6_CHKPE85216070025_2_NmNAI_1.fq	(Reverse strand technical replicates)	-NAI	Bio1
+------------
+
+160721_I114_FCHC2FYBBXX_L2_CHKPE85216070027_1_NpNAI_1.fq
+160918_I211_FCHCGLCBBXX_L6_CHKPE85216070027_1_NpNAI_1.fq	(Forward strand technical replicates)	+NAI	Bio1
+
+160721_I114_FCHC2FYBBXX_L2_CHKPE85216070027_2_NpNAI_1.fq
+160918_I211_FCHCGLCBBXX_L6_CHKPE85216070027_2_NpNAI_1.fq	(Reverse strand technical replicates)	+NAI	Bio1
+------------
+
+160721_I114_FCHC2FYBBXX_L2_CHKPE85216070026_1_NmNAI_2.fq
+160918_I211_FCHCGLCBBXX_L6_CHKPE85216070026_1_NmNAI_2.fq	(Forward strand technical replicates)	-NAI	Bio2
+
+160721_I114_FCHC2FYBBXX_L2_CHKPE85216070026_2_NmNAI_2.fq
+160918_I211_FCHCGLCBBXX_L6_CHKPE85216070026_2_NmNAI_2.fq	(Reverse strand technical replicates)	-NAI	Bio2
+------------
+
+160721_I114_FCHC2FYBBXX_L2_CHKPE85216070028_1_NpNAI_2.fq
+160918_I211_FCHCGLCBBXX_L6_CHKPE85216070028_1_NpNAI_2.fq	(Forward strand technical replicates)	+NAI	Bio2
+
+160721_I114_FCHC2FYBBXX_L2_CHKPE85216070028_2_NpNAI_2.fq
+160918_I211_FCHCGLCBBXX_L6_CHKPE85216070028_2_NpNAI_2.fq	(Reverse strand technical replicates)	+NAI	Bio2
+------------
+
+
+# Step 2.	Compress [gzip] technical replicates after merging
+
+HPC Data Folder: /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Hongjing_Rice
+( /* These files serve as input for adapter trimming using Trimmomatic - Step 3
+     To save disk space these files were deleted in this folder, but are
+     kept for posterity on the back-up hard disk /
+*/ )
+
+Merged_160721_160918_1_NmNAI_1.fq.gz				(Merged & compressed forward strand replicates -NAI Bio1)
+Merged_160721_160918_2_NmNAI_1.fq.gz				(Merged & compressed reverse strand replicates -NAI Bio1)
+------------
+Merged_160721_160918_1_NpNAI_1.fq.gz				(Merged & compressed forward strand replicates +NAI Bio1)
+Merged_160721_160918_2_NpNAI_1.fq.gz				(Merged & compressed reverse strand replicates +NAI Bio1)
+------------
+Merged_160721_160918_1_NmNAI_2.fq.gz				(Merged & compressed forward strand replicates -NAI Bio2)
+Merged_160721_160918_2_NmNAI_2.fq.gz				(Merged & compressed reverse strand replicates -NAI Bio2)
+------------
+Merged_160721_160918_1_NpNAI_2.fq.gz				(Merged & compressed forward strand replicates +NAI Bio2)
+Merged_160721_160918_2_NpNAI_2.fq.gz				(Merged & compressed reverse strand replicates +NAI Bio2)
+------------
+
+
+# Step 3.	Adapter trimming using Trimmomatic
+
+HPC Data Folder: /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Hongjing_Rice/Trimmed_files
+( /* Adapters are trimmed in sbatch mode.
+Refer script: batch_submit_trim_jobs.sh */)
+
+
+Run scripts 'nohup sbatch batch_submit_NmNAI_trim_jobs.sh &'
+	    'nohup sbatch batch_submit_NpNAI_trim_jobs.sh &'		/* Important to use 'sbatch' instead of 'sh' */
+
+The output files *_out_fw_paired.fq
+	  	 *_out_fw_unpaired.fq
+	  	 *_out_rev_paired.fq
+	  	 *_out_rev_unpaired.fq		are deleted.
+
+Output files	 *R1.fastq.gz
+	  	 *R2.fastq.gz			are zipped and kept for QC and mapping (Steps 4 and 5)
+
+
+NmNAI_B1_R1.fastq.gz	(NAI minus_BiologicalRep. 1_Forward read)
+NmNAI_B1_R2.fastq.gz	(NAI minus_BiologicalRep. 1_Reverse read)
+NmNAI_B2_R1.fastq.gz	(NAI minus_BiologicalRep. 2_Forward read)
+NmNAI_B2_R2.fastq.gz	(NAI minus_BiologicalRep. 2_Reverse read)
+NpNAI_B1_R1.fastq.gz	(NAI plus_BiologicalRep. 1_Forward read)
+NpNAI_B1_R2.fastq.gz	(NAI plus_BiologicalRep. 1_Reverse read)
+NpNAI_B2_R1.fastq.gz	(NAI plus_BiologicalRep. 2_Forward read)
+NpNAI_B2_R2.fastq.gz	(NAI plus_BiologicalRep. 2_Reverse read)
+------------
+
+
+# Step 4.	QC using FastQC
+
+Run script 'nohup sbatch qc.sh &'
+
+Output files: *.zip
+	      *.html
+-----------
+
+
+# Step 5.	Indexing Nipponbare reference genome with HISAT2-2.0.5
+
+## (A). Convert .gff3 to .gtf for .exon and .ss files extraction
+Run commands on terminal:
+'source cufflinks-2,2,1'
+'gffread -E all_gff3_MSU7.gff3 -T -o all_MSU7.gtf > gff3_to_gtf.err'
+
+## (B). Extract .exon and .ss files for index builder
+'source switch-institute ei'
+'source HISAT-2.0.5'
+'hisat2_extract_exons.py all_MSU7.gtf > all.exon'
+'hisat2_extract_splice_sites.py all_MSU7.gtf > all.ss'
+
+Nipponbare reference genome: /nbi/Research-Groups/JIC/Yiliang-Ding/YD/ANALYSIS/OSA/HONG-RICE/Mapping-NAI-Nipp-20171113/all.chrs.con
+
+Make a directory called Index
+
+Run script	'nohup sbatch index_builder.sh &' inside the folder.	
+ 
+Output index files: Nipgenomic.*.ht2	(8 files 1.ht2, 2.ht2, 3.ht2 and so on..)
+------------
+
+
+# Step 6.	Mapping RNA-seq reads to reference genome using HISAT2-2.0.5
+
+Run shell scripts:	'nohup sbatch map1.sh &'	(To map NmNAI_B1_R1.fastq.gz and NmNAI_B1_R2.fastq.gz)
+Run shell scripts:	'nohup sbatch map2.sh &'	(To map NmNAI_B2_R1.fastq.gz and NmNAI_B2_R2.fastq.gz)
+Run shell scripts:	'nohup sbatch map3.sh &'	(To map NpNAI_B1_R1.fastq.gz and NpNAI_B1_R2.fastq.gz)
+Run shell scripts:	'nohup sbatch map4.sh &'	(To map NpNAI_B2_R1.fastq.gz and NpNAI_B2_R2.fastq.gz)
+
+The shell scripts further convert .sam to .bam files and sort the .bam files (by name -n option is important for processing later using RNAcode pipeline [countReads.py]).
+
+Output files: *.sam (delete .sam files)
+	      *.bam (backed up by Hongjing, and deleted from HPC)
+	      *.sorted.bam (backed up by Ananth on backup disk and deleted later from HPC)
+	      *.err (This file has statistics on the number of reads aligned concordantly and disconcordantly)
+	      *.out
+
+# Step 6(A)	Filter .sorted.bam files
+
+This step filters only the concordantly mapped reads
+
+Using command line 'samtools view -b -hf 0x2 xxx.sorted.bam > xxx.concordant_mapped_only.sorted.bam' (-h option is important for printing headers, for processing later using RNAcode pipeline [countReads.py])
+
+Output files: NmNAI_B1_ConcordantMappedOnly.sorted.bam
+	      NmNAI_B2_ConcordantMappedOnly.sorted.bam
+	      NpNAI_B1_ConcordantMappedOnly.sorted.bam
+	      NpNAI_B2_ConcordantMappedOnly.sorted.bam
+
+
+After filtering double-check the number of reads that agree with respective *.err files: Use command 'samtools flagstat xxx_ConcordantMappedOnly.sorted.bam'
+The output containing statistics are present in files: xxx_ConcordantMappedOnly.sorted.bam.stats
+------------
+
+
+# Step 7.	Counting
+#
+Go to directory ./Counting
+
+Run the script 'sbatch Batch_compute_stop_counts.sh'
+Output files: NmNAI_B1_ConcordantMappedOnly.cnt
+	      NmNAI_B2_ConcordantMappedOnly.cnt
+	      NpNAI_B1_ConcordantMappedOnly.cnt
+	      NpNAI_B2_ConcordantMappedOnly.cnt
+
+NOTE: Since the reads were mapped to the genome, these output files 'NxNAI_Bx_ConcordantMappedOnly.cnt' contain counting 
+information for the whole genome and is not descriptive of individual genes or mRNA or mRNA_exons.
+
+To Map the counting to individual genes or pre-mRNA or mRNA(exons) or rRNA or tRNA:
+Make separate directories for each type
+(A) genes
+(B) mRNA	#This is pre-mRNA including introns
+(C) mRNA_exons	#Only has exons
+(D) rRNA
+(E) tRNA
+
+Counting is done parallely Chromosome-wise to speed up the process:
+
+1. Create a directory for each type (Ex: Plus_or_Minus_BiologicalReplicates)
+2. Edit 'Batch_map_stop_counts.sh' to change the name of input xxxx_ConcordantMappedOnly.cnt file
+3. Edit output and .err file names in 'SLURM_Batch_map_stop_counts.sh'
+4. Edit number of nodes '-n' option in 'SLURM_Batch_map_stop_counts.sh'.
+   IMPORTANT: This number should be the number of chromosomes that have the respective genes/mRNA/rRNAs/tRNAs or exons
+   For example -n option is 12 for genes, mRNA and tRNA (excluding ChrSy and ChrUn) and is 3 for rRNA
+5. Edit names of input 'xxx_ConcordantMappedOnly.sorted.bam' and output files
+6. Run script 'sbatch SLURM_Batch_map_stop_counts.sh'
+
+The output count files are named Chromosome wise
+
+After completion these individual chromosome count files in each subdirectories are merged into 
+	NmNAI_B1_ConcordantMappedOnly_mRNACounts_AllChrs.cnt
+	NmNAI_B2_ConcordantMappedOnly_mRNACounts_AllChrs.cnt
+	NpNAI_B1_ConcordantMappedOnly_mRNACounts_AllChrs.cnt
+	NpNAI_B2_ConcordantMappedOnly_mRNACounts_AllChrs.cnt
+
+The bioloogical replicates are later merged(SUMMED) to use for Reactivity Calculation
+
+To out put sequence FASTA files:
+Edit scripts 'Batch_map_sequence.sh' and 'SLURM_Batch_map_sequence.sh' and run 'sbatch SLURM_Batch_map_sequence.sh'
+
+The output files have sequence (in tab-delimited form).
+The individual chromosomal files are merged into one fasta file
+	'All_mRNA_sequences_for_RC.fasta'
+This needs to be done only once.
+
+
+At the end after running both stop_counts and sequence, clean up (delete) the temporary .gff3 files
+
+------------
+
+# Step 7A.	Count reads to features
+
+Run this command
+
+/nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/subread-1.6.0-Linux-x86_64/bin/featureCounts -p -t mRNA -g ID -B -a ./../Resources/all_gff3_MSU7.gff3 -o foo_featCounts.out ./NmNAI_B1_ConcordantMappedOnly.sorted.bam
+#
+#
+# Step 8.	Reactivity
+#
+
