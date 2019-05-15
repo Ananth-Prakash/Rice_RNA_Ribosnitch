@@ -20,6 +20,7 @@ source  trimmomatic-0.33
 read1=./../Merged_160721_160918_1_NmNAI_1.fq.gz
 read2=./../Merged_160721_160918_2_NmNAI_1.fq.gz
 
+#prefix for output
 baseout=NmNAI_B1
 
 java -jar /nbi/software/testing/trimmomatic/0.33/x86_64/bin/trimmomatic-0.33.jar  PE -threads 8  ${read1} ${read2}  \
@@ -41,6 +42,7 @@ java -jar /nbi/software/testing/trimmomatic/0.33/x86_64/bin/trimmomatic-0.33.jar
 read1=./../Merged_160721_160918_1_NmNAI_2.fq.gz
 read2=./../Merged_160721_160918_2_NmNAI_2.fq.gz
 
+#prefix for output
 baseout=NmNAI_B2
 
 java -jar /nbi/software/testing/trimmomatic/0.33/x86_64/bin/trimmomatic-0.33.jar  PE -threads 8  ${read1} ${read2}  \
@@ -62,6 +64,7 @@ java -jar /nbi/software/testing/trimmomatic/0.33/x86_64/bin/trimmomatic-0.33.jar
 read1=./../Merged_160721_160918_1_NpNAI_1.fq.gz
 read2=./../Merged_160721_160918_2_NpNAI_1.fq.gz
 
+#prefix for output
 baseout=NpNAI_B1
 
 java -jar /nbi/software/testing/trimmomatic/0.33/x86_64/bin/trimmomatic-0.33.jar  PE -threads 8  ${read1} ${read2}  \
@@ -83,6 +86,7 @@ java -jar /nbi/software/testing/trimmomatic/0.33/x86_64/bin/trimmomatic-0.33.jar
 read1=./../Merged_160721_160918_1_NpNAI_2.fq.gz
 read2=./../Merged_160721_160918_2_NpNAI_2.fq.gz
 
+#prefix for output
 baseout=NpNAI_B2
 
 java -jar /nbi/software/testing/trimmomatic/0.33/x86_64/bin/trimmomatic-0.33.jar  PE -threads 8  ${read1} ${read2}  \
