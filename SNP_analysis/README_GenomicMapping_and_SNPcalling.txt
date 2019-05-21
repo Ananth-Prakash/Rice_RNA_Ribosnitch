@@ -28,17 +28,17 @@ Date: 12th January 2018
         Make sure no spaces in the fasta header (identifier). Spaces causes problems in samtools faidx
 
 	source jre-1.8.0_45
-	nohup java -jar /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/Picard/picard.jar CreateSequenceDictionary R=all.chrs.fasta O=all.chrs.dict &
+	nohup java -jar /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/Picard/picard.jar CreateSequenceDictionary R=Nipponbare_ref_genome.fasta O=Nipponbare_ref_genome.dict &
 
-        NOTE:   The input fasta reference file has to have extension .fasta (all.chrs.fasta not all.chrs.con, else Picard complains!)
-		The output extension has to be the input reference fasta file name and extension .dict (example should be 'all.chrs.dict' not 'all.chrs.fasta.dict', else GATK complains!)
+        NOTE:   The input fasta reference file has to have extension .fasta (Nipponbare_ref_genome.fasta not Nipponbare_ref_genome.con, else Picard complains!)
+		The output extension has to be the input reference fasta file name and extension .dict (example should be 'Nipponbare_ref_genome.dict' not 'Nipponbare_ref_genome.fasta.dict', else GATK complains!)
 
         (ii) To get .fai file, run command
 
 	source samtools-1.5
-        samtools faidx ./all.chrs.fasta
+        samtools faidx ./Nipponbare_ref_genome.fasta
 
-        The .fai output file (all.chrs.fasta.fai) will be placed in the same directory where the input reference .fasta file is present.
+        The .fai output file (Nipponbare_ref_genome.fasta.fai) will be placed in the same directory where the input reference .fasta file is present.
 
 
 				================================================
@@ -107,7 +107,7 @@ Date: 12th January 2018
 
 		srun java -jar /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/GenomeAnalysisTK-nightly-2018-01-01-1/GenomeAnalysisTK.jar \
 			-T SplitNCigarReads \
-			-R ./../References/all.chrs.fasta \
+			-R ./../References/Nipponbare_ref_genome.fasta \
 			-I 9mNAI_B1B2.addRG.merged.dedupped.bam \
 			-o 9mNAI_B1B2.addRG.merged.dedupped.splitntrimmed.bam \
 			-U ALLOW_N_CIGAR_READS 
@@ -124,7 +124,7 @@ Date: 12th January 2018
 
 		srun java -jar /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/GenomeAnalysisTK-nightly-2018-01-01-1/GenomeAnalysisTK.jar \
 			-T RealignerTargetCreator \
-			-R ./../References/all.chrs.fasta \
+			-R ./../References/Nipponbare_ref_genome.fasta \
 			-I 9mNAI_B1B2.addRG.merged.dedupped.splitntrimmed.bam \
 			-known ./../Indelrealignment/Nipponbare_indel.vcf \
 			-nt 4 \
@@ -136,7 +136,7 @@ Date: 12th January 2018
 
 		srun java -jar /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/GenomeAnalysisTK-nightly-2018-01-01-1/GenomeAnalysisTK.jar \
 			-T IndelRealigner \
-			-R ./../References/all.chrs.fasta \
+			-R ./../References/Nipponbare_ref_genome.fasta \
 			-I 9mNAI_B1B2.addRG.merged.dedupped.splitntrimmed.bam \
 			-known ./../Indelrealignment/Nipponbare_indel.vcf \
 			-targetIntervals 9mNAI_B1B2.realignertargetcreator.intervals \
@@ -152,7 +152,7 @@ Date: 12th January 2018
 
 		srun java -jar /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/GenomeAnalysisTK-nightly-2018-01-01-1/GenomeAnalysisTK.jar \
 			-T BaseRecalibrator \
-			-R ./../References/all.chrs.fasta \
+			-R ./../References/Nipponbare_ref_genome.fasta \
 			-I 9mNAI_B1B2.addRG.merged.dedupped.splitntrimmed.indelrealigned.bam \
 			-knownSites /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Hongjing_Rice/HISAT2_Mapping_Genomic/93-11_Genomic_mapping/References/NB_bialSNP_pseudo_canonical_ALL.vcf \
 			-o 9mNAI_B1B2_BaseRecalibrationReport_vcf_data.table
@@ -163,7 +163,7 @@ Date: 12th January 2018
 
 		srun java -jar /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/GenomeAnalysisTK-nightly-2018-01-01-1/GenomeAnalysisTK.jar \
 			-T PrintReads \
-			-R ./../References/all.chrs.fasta \
+			-R ./../References/Nipponbare_ref_genome.fasta \
 			-I 9mNAI_B1B2.addRG.merged.dedupped.splitntrimmed.indelrealigned.bam \
 			-BQSR 9mNAI_B1B2_BaseRecalibrationReport_vcf_data.table \
 			-nct 4 \
@@ -176,7 +176,7 @@ Date: 12th January 2018
 
 		srun java -jar /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/GenomeAnalysisTK-nightly-2018-01-01-1/GenomeAnalysisTK.jar \
 			-T HaplotypeCaller \
-			-R ./../References/all.chrs.fasta \
+			-R ./../References/Nipponbare_ref_genome.fasta \
 			-I 9mNAI_B1B2.addRG.merged.dedupped.splitntrimmed.indelrealigned.BQSR.bam \
 			-maxAltAlleles 10 \
 			-dontUseSoftClippedBases \
@@ -194,7 +194,7 @@ Date: 12th January 2018
 
 		srun java -jar /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/GenomeAnalysisTK-nightly-2018-01-01-1/GenomeAnalysisTK.jar \
 			-T SelectVariants \
-			-R ./../References/all.chrs.fasta \
+			-R ./../References/Nipponbare_ref_genome.fasta \
 			-V 9mNAI_B1B2.addRG.merged.dedupped.splitntrimmed.indelrealigned.BQSR.RAW-VARIANTS.vcf \
 			-selectType SNP \
 			-o 9mNAI_B1B2.addRG.merged.dedupped.splitntrimmed.indelrealigned.BQSR.RAW-SNPs.vcf 
@@ -204,7 +204,7 @@ Date: 12th January 2018
 
 		srun java -jar /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/GenomeAnalysisTK-nightly-2018-01-01-1/GenomeAnalysisTK.jar \
 			-T VariantFiltration \
-			-R ./../References/all.chrs.fasta \
+			-R ./../References/Nipponbare_ref_genome.fasta \
 			-V 9mNAI_B1B2.addRG.merged.dedupped.splitntrimmed.indelrealigned.BQSR.RAW-SNPs.vcf \
 			--filterExpression "QD < 2.0 || FS > 60.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0" \
 			--filterName "my_snp_filter" \
@@ -263,7 +263,7 @@ NOTE	Use Samtools-1.5
 	srun java -jar /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/Picard/picard.jar CollectAlignmentSummaryMetrics \
 		INPUT=input.bam \
 		OUTPUT=Picard_AlignmentSummaryMetric.out \
-		R=./../References/all.chrs.fasta
+		R=./../References/Nipponbare_ref_genome.fasta
 	
         The percentage of aligned reads for paired is SUM(PF_HQ_ALIGNED_READS)/PF_READS
 
