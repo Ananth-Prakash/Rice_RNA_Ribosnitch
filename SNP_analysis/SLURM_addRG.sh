@@ -16,9 +16,8 @@
 
 source jre-1.8.0_45 
 
-# /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Hongjing_Rice/HISAT2_Mapping_Genomic/93-11_Genomic_mapping/Genomic_mapping_HISAT2
 
-# For 9mNAI-B1.
+# For 9mNAI-B1 (9311 minus NAI, biological replicate 1)
 java -jar /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/Picard/picard.jar AddOrReplaceReadGroups \
 	INPUT=./../Genomic_mapping_HISAT2/9mNAI_B1.srt.bam \
 	OUTPUT=9mNAI_B1.addRG.bam \
@@ -31,7 +30,7 @@ java -jar /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/Picard/picard.
 	CREATE_INDEX=true
 
 
-# For 9mNAI-B2
+# For 9mNAI-B2 (9311 minus NAI, biological replicate 2)
 java -jar /nbi/Research-Groups/JIC/Yiliang-Ding/ANANTH/Software_p/Picard/picard.jar AddOrReplaceReadGroups \
 	INPUT=./../Genomic_mapping_HISAT2/9mNAI_B2.srt.bam \
 	OUTPUT=9mNAI_B2.addRG.bam \
