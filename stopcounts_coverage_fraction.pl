@@ -29,19 +29,19 @@ while (<FH1>)
 	{
 		$id = $_;
 		$line_count++;
-		print "$id\t";
+		#print "$id\t";
 	}
 	elsif ($line_count == 2)
 	{
 		$stop_counts=$_;
 		$line_count++;
-		print "Stpc $stop_counts\n";
+		#print "Stpc $stop_counts\n";
 	}
 	elsif ($line_count == 3)
 	{
 		$coverage = $_;
 		$line_count++;
-		print "Coverage $coverage\n";
+		#print "Coverage $coverage\n";
 	}
 	elsif ($line_count==4)
 	{
