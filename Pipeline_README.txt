@@ -207,9 +207,25 @@ Output files	 *.fastq.gz
 
 	   (i)	Run script
 		[sbatch Batch_compute_stop_counts_multimapping.sh]
+		output is a .cnt file which has (i) Transcript id, (ii) stopcounts and (ii) coverage at each nucleotide position.
 
 	  (ii)	Summarise the stopcounts and coverage and normalise by transcript length
 		using the .cnt file obtained from running the first step
 		Run script
 		[perl stopcounts_coverage_fraction.pl input.cnt > output.cvg]
+------------
 
+
+# STEP 9. Calculate SHAPE reactivity
+
+	   (i)	Merge (sum) the counts from two biological replicates.
+        	activate rnaenv
+        	rna_structure counts -l 9mNAI_B1.cnt 9mNAI_B2.cnt 9mNAI_merged.cnt
+        	rna_structure counts -l 9pNAI_B1.cnt 9pNAI_B2.cnt 9pNAI_merged.cnt
+
+	  (ii)	Calculate the box plot normalized reactivity
+		rna_structure_cli shape-reactivity -v --calc=log-noalpha --norm=boxplot-noq3 --norm-exclude-zeroes --out-filter=pos --cut-nts=-40 9311_combinedREF.fasta 9mNAI_merged.cnt 9pNAI_merged.cnt ./Boxplot_react/ trans > transcriptome_bpnorm.log 2>&1
+
+	 (iii)	Calculate 95% Winsorization reactivity of passed files
+		Run script
+        	[perl Rescale_reactivity_Winsorize.pl Raw_reactivity_pass.list Rescaled_react_pass_directory/]
