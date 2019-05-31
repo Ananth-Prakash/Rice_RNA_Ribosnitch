@@ -200,4 +200,16 @@ Output files	 *.fastq.gz
 	  (ii)	Map (-)NAI and (+)NAI libraries to new reference of 93-11
 		Run script
 		[sbatch Transcriptome_mapping_9311_Bowtie2.sh]
+------------
+
+
+## STEP 8. Computing stop counts and coverage
+
+	   (i)	Run script
+		[sbatch Batch_compute_stop_counts_multimapping.sh]
+
+	  (ii)	Summarise the stopcounts and coverage and normalise by transcript length
+		using the .cnt file obtained from running the first step
+		Run script
+		[perl stopcounts_coverage_fraction.pl input.cnt > output.cvg]
 
