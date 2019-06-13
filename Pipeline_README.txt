@@ -186,7 +186,7 @@ Output files	 *.fastq.gz
 
 	 (iii)	Generate reference Transcriptome
 		Run script
-		[python generate-reference-usingAssemblySeq-IsoChk-final.py]
+		[python generate-TranscriptReference-usingAssemblySeq.py]
 ------------
 
 
@@ -229,3 +229,19 @@ Output files	 *.fastq.gz
 	 (iii)	Calculate 95% Winsorization reactivity of passed files
 		Run script
         	[perl Rescale_reactivity_Winsorize.pl Raw_reactivity_pass.list Rescaled_react_pass_directory/]
+------------
+
+
+# STEP 10. Fold RNA secondary structures
+	
+	  (i)  Fold Nipponbare an 9311 transcripts
+	       SHAPE constrained folding (invivo folding) and unconstrained folding (insilico)
+	       Provide input list of file names without extensions (fasta shape files must have the same names) to fold
+	       Run script
+	       [sbatch Fold_RNA.sh file.list.inp]
+	
+	 (ii)  Annotate basepairing partners
+	       Identify 
+	       
+	       
+	(iii) extract basepairing probabilities
