@@ -1,8 +1,11 @@
-#! /usr/bin/perl -w
+#! /usr/bin/perl
 #
 # Perl script to map geneomic and transcriptomic positions
 # such that the nucleotide conservation values (in genomic coords) can be assigned to their correct transcript position
 #
+
+use warnings();
+use strict();
 
 if ($#ARGV < 1)
 {
@@ -95,7 +98,7 @@ LINE: while(<FH1>)
 					$transcript_length=0;
 				}
 				
-				# Minu strand
+				# Minus strand
 				if($strand eq "-")
 				{
 					$nucleotide_transcript_pos = $feature_end-$snp+1;	
