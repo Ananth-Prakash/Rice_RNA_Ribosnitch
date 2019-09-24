@@ -234,14 +234,56 @@ Output files	 *.fastq.gz
 
 # STEP 10. Fold RNA secondary structures
 	
-	  (i)  Fold Nipponbare an 9311 transcripts
-	       SHAPE constrained folding (invivo folding) and unconstrained folding (insilico)
-	       Provide input list of file names without extensions (fasta shape files must have the same names) to fold
-	       Run script
-	       [sbatch Fold_RNA.sh file.list.inp]
+	   (i)  Fold Nipponbare an 9311 transcripts
+		SHAPE constrained folding (invivo folding) and unconstrained folding (insilico)
+		Provide input list of file names without extensions (fasta shape files must have the same names) to fold
+		Run script
+		[sbatch Fold_RNA.sh file.list.inp]
 	
-	 (ii)  Annotate basepairing partners
-	       Identify 
+	 (ii) 	Annotate basepairing partners
+		Identify pairing partners later to calculate basepairing distances and probabilities 
+		Provide list of name_ss.ps files from RNAfold as input
+		Run script
+		[sbatch Relplot.sh RNAfold_output_files_ss.ps.list]
 	       
-	       
-	(iii) extract basepairing probabilities
+	(iii)	Extract basepairing probabilities
+		Provide input files, which are obtained from running Relplot.
+		Run script
+		[perl Calc_BasePairProbability.pl path_to_fold_rss.ps_files.list]
+------------
+
+
+# STEP 11. Compare RNA secondary structures
+
+	  (i)	PPV
+
+
+------------
+
+
+# STEP 12. Calculate nucleotide conservation score
+
+		The multiallelic data of 32 Million SNP positions in 3000 (3K) rice accessions was downloaded from
+		https://s3.amazonaws.com/3kricegenome/reduced/3k_RG_32mio_All_multiallelic_biallelic_SNP_dataset.zip
+		OR the header ("3K RG 32mio SNPs, called vs Nipponbare MSU7/IRGSP1.0 genome, tabular format") in http://snp-seek.irri.org/_download.zul
+
+	  (i)	Prepare mapping of rice IRIS_UNIQUE_IDS to Variety Group (ex. Indica, Japonica, etc.)
+		Download rice Variety Group information of 3K rice accessions from
+		"The 3,000 rice genomes project"
+		Additional file 1: Table S1A:
+		https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4035669/#S1
+		
+		Extract columns C ("DNA_UNIQUE_ID") and O ("Variety Group (Tree)1") in sheet "Table-1A_IRRI" &
+			columns C ("DNA_UNIQUE_ID") and N ("Variety Group (Tree)2") in sheet "Table-1B_CAAS"
+		concatenate the coloumns into a file.
+
+	 	Run script
+		[Map_3KRice_accession_variety_name.R]
+
+	 (ii)	Compute conservation scores of nucleotides
+		Run script
+		[sbatch SLURM_get_SNPconservation_3Kgenomes.sh]
+
+	(iii)	Map nucleotide conservation score from genomic cordinates to transcript cordinates
+		Run script
+		[sbatch SLURM_map_nuclconservationscores_genomic_to_transcriptomic_coords.sh]
